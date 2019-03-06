@@ -2,6 +2,7 @@
 #define MAINWINDOW_H
 
 #include <QMainWindow>
+#include <QListWidget>
 #include "tree.h"
 
 namespace Ui {
@@ -38,6 +39,10 @@ private slots:
     void findHashAll(int &s_count);
 
     void DeleteTree(Tree * item);
+
+
+
+    void on_listWidget_itemDoubleClicked(QListWidgetItem *item);
 
 private:
     Ui::MainWindow *ui;

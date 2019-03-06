@@ -12,6 +12,7 @@
 
 
 QString static pathToFile;
+QStringList static identList;
 int static search_count = 0;
 
 Tree static * head = NULL;
@@ -57,8 +58,12 @@ void MainWindow::on_pushButton_2_clicked()   //кнопка "Загрузить 
         return;
     }
 
-    QString text = file.readAll();
-    ui->textEdit->setText(QString(text));
+    while(!file.atEnd())
+    {
+        identList.append(file.readLine().trimmed());
+    }
+
+    ui->listWidget->addItems(identList);
 
     if(opened)
     {
@@ -102,15 +107,13 @@ void MainWindow::on_pushButton_5_clicked()   //кнопка "Найти все"
 
 void MainWindow::CreateTree()
 {
-    QStringList mas = ui->textEdit->toPlainText().split("\n",QString::SkipEmptyParts);
-
     head = new Tree();
-    head->set_hashId( HashFun(mas[0]) );
-    head->set_ident(mas[0]);
+    head->set_hashId( HashFun(identList[0]) );
+    head->set_ident(identList[0]);
     head->set_left(NULL);
     head->set_right(NULL);
 
-    foreach(QString s, mas)
+    foreach(QString s, identList)
     {
         if(!head->AddElem(head, s, HashFun(s)))
             ;//сообщить, с каким идентификатором возникли проблемы
@@ -119,8 +122,7 @@ void MainWindow::CreateTree()
 
 void MainWindow::CreateHash()
 {
-    QStringList mas = ui->textEdit->toPlainText().split("\n",QString::SkipEmptyParts);
-    hTable.Create(mas);
+    hTable.Create(identList);
 }
 
 
@@ -197,3 +199,9 @@ void MainWindow::DeleteTree(Tree * item)
     }
 }
 
+
+
+void MainWindow::on_listWidget_itemDoubleClicked(QListWidgetItem *item)
+{
+    ui->lineEdit_ident->setText(item->text());
+}
