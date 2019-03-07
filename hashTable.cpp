@@ -64,12 +64,6 @@ void HashTable::Create(QStringList m)
     {
         int h = HashFun(str);
 
-        /*
-        if(h < get_min() || h > get_max())
-            continue;
-        */
-
-
         //проверить, что идентификатора с таким индексом еще нет
         bool rehash = false;         //true - требуется рехэширование
         foreach(QString str_num, mas)
@@ -84,7 +78,7 @@ void HashTable::Create(QStringList m)
         //проверка выхода за пределы массива
         if(h > get_N()) rehash = true;
 
-        //если это не так - процедура рехэширования
+        //процедура рехэширования
         if(rehash)
         {
             int j = 1;

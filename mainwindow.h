@@ -38,6 +38,8 @@ private slots:
     void findHash(QString str, int &s_count, int &s_hash);
     void findHashAll(QStringList list, int &s_count, int &s_hash, int &s_hashAll);
 
+    void ShowTree(Tree * item, int level);
+
     void DeleteTree(Tree * item);
 
 

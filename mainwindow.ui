@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1159</width>
+    <width>1559</width>
     <height>732</height>
    </rect>
   </property>
@@ -526,6 +526,29 @@ background-color: rgb(238, 238, 236);</string>
      </rect>
     </property>
    </widget>
+   <widget class="QLabel" name="label_8">
+    <property name="geometry">
+     <rect>
+      <x>1170</x>
+      <y>10</y>
+      <width>211</width>
+      <height>33</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Бинарное дерево</string>
+    </property>
+   </widget>
+   <widget class="QTextEdit" name="tree">
+    <property name="geometry">
+     <rect>
+      <x>1160</x>
+      <y>50</y>
+      <width>391</width>
+      <height>641</height>
+     </rect>
+    </property>
+   </widget>
    <zorder>graphicsView_3</zorder>
    <zorder>graphicsView_2</zorder>
    <zorder>graphicsView</zorder>
@@ -562,6 +585,8 @@ background-color: rgb(238, 238, 236);</string>
    <zorder>label_24</zorder>
    <zorder>label_25</zorder>
    <zorder>listWidget</zorder>
+   <zorder>label_8</zorder>
+   <zorder>tree</zorder>
   </widget>
   <widget class="QStatusBar" name="statusBar"/>
  </widget>

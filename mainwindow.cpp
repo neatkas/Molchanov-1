@@ -85,6 +85,9 @@ void MainWindow::on_pushButton_2_clicked()   //кнопка "Загрузить 
     }
 
     if(opened) file.close();
+
+    ui->tree->setText("");
+    ShowTree(head, 0);
 }
 
 void MainWindow::on_pushButton_4_clicked()   //кнопка "Сброс"
@@ -114,6 +117,7 @@ void MainWindow::on_pushButton_3_clicked()   //кнопка "Поиск"
     search_hash = 0;
     search_treeAll = 0;
     search_hashAll = 0;
+
     if(ui->lineEdit_ident->text() != "")
     {
         findTree(ui->lineEdit_ident->text(), search_count, search_tree);
@@ -245,6 +249,17 @@ void MainWindow::findHashAll(QStringList list, int &s_count, int &s_hash, int &s
         ui->label_14->setText(trUtf8("Идентификатор не найден"));
 }
 
+void MainWindow::ShowTree(Tree * item, int level)
+{
+    if(item)
+    {
+        ShowTree(item->get_left(), level+1);
+        for (int i = 0; i < level; i++)
+            ui->tree->setText(ui->tree->toPlainText() + "     ");
+        ui->tree->setText(ui->tree->toPlainText() + item->get_ident() + "\n");
+        ShowTree(item->get_right(), level+1);
+    }
+}
 
 void MainWindow::DeleteTree(Tree * item)
 {
