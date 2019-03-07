@@ -41,6 +41,7 @@ MainWindow::~MainWindow()   //(***********************************************)
 void MainWindow::on_pushButton_clicked()     //кнопка "Выбрать файл"
 {
        pathToFile = QFileDialog::getOpenFileName(0, "OpenDialog", "", "*.txt");
+       identList.clear();
        ui->lineEdit_fileName->setText(pathToFile);
 }
 
@@ -57,6 +58,10 @@ void MainWindow::on_pushButton_2_clicked()   //кнопка "Загрузить 
 {    
     if(ui->lineEdit_fileName->text() == "") return;
 
+    //перед загрузкой новых данных надо удалить старые
+    identList.clear();
+    ui->listWidget->clear();
+
     QFile file(pathToFile);
     bool opened = 1;
     if (!file.open(QFile::ReadOnly))
@@ -65,11 +70,6 @@ void MainWindow::on_pushButton_2_clicked()   //кнопка "Загрузить 
         QMessageBox::warning(this, tr("Application"), tr("Cannot open file %1:\n%2.").arg(pathToFile));
         return;
     }
-
-
-    //перед загрузкой данных нужно удалить все элементы из поля
-    //ui->listWidget->clear();
-
 
     while(!file.atEnd())
     {
@@ -142,6 +142,11 @@ void MainWindow::on_pushButton_3_clicked()   //кнопка "Поиск"
 
 void MainWindow::on_pushButton_5_clicked()   //кнопка "Найти все"
 {
+    search_tree = 0;
+    search_hash = 0;
+    search_treeAll = 0;
+    search_hashAll = 0;
+
     findTreeAll(identList, head, search_count, search_tree, search_treeAll);
     findHashAll(identList, search_count, search_hash, search_hashAll);
     ui->label_count->setText(QString::number(search_count));

@@ -83,7 +83,7 @@ void HashTable::Create(QStringList m)
         {
             int j = 1;
             int hi = -1;
-            while(hi != (h % get_N()))
+            while(hi != h)
             {
                 hi = (h+j) % get_N();   //рехэширование
 
@@ -119,12 +119,36 @@ QStringList HashTable::Find(QString s, int &s_count, int &s_hash)
     s_hash = 0;
 
     QStringList result;
-    bool rehashed;
+    int hi = -1;
+    int i = 1;
 
     result.append("false");
 
     int h = HashFun(s);
 
+    if(h < get_N())
+    {
+        s_hash++;
+        if(masStr[h] == s)
+        {
+            result[0] = "true";
+            return result;
+        }
+    }
+
+    while (hi != h)
+    {
+        s_hash++;
+        hi = (h + i) % get_N();
+        if(masStr[hi] == s)
+        {
+            result[0] = "true";
+            return result;
+        }
+        i++;
+    }
+
+    /*
     if(h <= get_N()) rehashed = true;
     else rehashed = false;
 
@@ -132,7 +156,7 @@ QStringList HashTable::Find(QString s, int &s_count, int &s_hash)
     {
         int hi = -1;
         int i = 1;
-        while ( (h % get_N())!= hi && !rehashed)
+        while ( h != hi && !rehashed)
         {
             hi = (h + i) % get_N();
             foreach(QString str_num, mas)
@@ -168,7 +192,7 @@ QStringList HashTable::Find(QString s, int &s_count, int &s_hash)
         }
     }
 
-    if(rehashed) result[0] = "true";
+    if(rehashed) result[0] = "true";*/
 
     //запись в массив статистики
 
