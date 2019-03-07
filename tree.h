@@ -7,23 +7,23 @@
 class Tree
 {
 private:
-    int hashId;
+    //int hashId;
     QString ident;
     Tree * left;
     Tree * right;
 public:
     Tree();
-    void set_hashId(int num);
+    //void set_hashId(int num);
     void set_ident(QString str);
     void set_left(Tree * item);
     void set_right(Tree * item);
 
-    int get_hashId();
+    //int get_hashId();
     QString get_ident();
     Tree * get_left();
     Tree * get_right();
 
-    bool AddElem(Tree * head, QString s, int h);
+    bool AddElem(Tree * head, QString s);
 };
 
 #endif // TREE_H

@@ -161,14 +161,14 @@ void MainWindow::on_pushButton_5_clicked()   //кнопка "Найти все"
 void MainWindow::CreateTree()
 {
     head = new Tree();
-    head->set_hashId( HashFun(identList[0]) );
+    //head->set_hashId( HashFun(identList[0]) );
     head->set_ident(identList[0]);
     head->set_left(NULL);
     head->set_right(NULL);
 
     foreach(QString s, identList)
     {
-        if(!head->AddElem(head, s, HashFun(s)))
+        if(!head->AddElem(head, s))
             ;//сообщить, с каким идентификатором возникли проблемы
     }
 }
@@ -186,7 +186,7 @@ bool MainWindow::findTree(QString str, int &s_count, int &s_tree)
     s_count++;
     s_tree = 0;
 
-    int h = HashFun(str);
+    //int h = HashFun(str);
 
     Tree * temp = head;
     bool found = false;
@@ -194,11 +194,11 @@ bool MainWindow::findTree(QString str, int &s_count, int &s_tree)
     while(temp && !found)
     {
         s_tree++;
-        if(h == temp->get_hashId())
+        if(str == temp->get_ident())
             found = true;
-        else if(h < temp->get_hashId())
+        else if(str < temp->get_ident())
             temp = temp->get_left();
-        else if(h > temp->get_hashId())
+        else if(str > temp->get_ident())
             temp = temp->get_right();
         else return false;
     }
@@ -255,7 +255,7 @@ void MainWindow::ShowTree(Tree * item, int level)
     {
         ShowTree(item->get_left(), level+1);
         for (int i = 0; i < level; i++)
-            ui->tree->setText(ui->tree->toPlainText() + "     ");
+            ui->tree->setText(ui->tree->toPlainText() + "        ");
         ui->tree->setText(ui->tree->toPlainText() + item->get_ident() + "\n");
         ShowTree(item->get_right(), level+1);
     }
