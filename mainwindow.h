@@ -33,10 +33,10 @@ private slots:
     void CreateTree();
     void CreateHash();
 
-    bool findTree(QString str, int &s_count);
-    void findTreeAll(Tree * item, int &s_count);
-    void findHash(QString str, int &s_count);
-    void findHashAll(int &s_count);
+    bool findTree(QString str, int &s_count, int &s_tree);
+    void findTreeAll(QStringList list, Tree * item, int &s_count, int &s_tree, int &s_treeAll);
+    void findHash(QString str, int &s_count, int &s_hash);
+    void findHashAll(QStringList list, int &s_count, int &s_hash, int &s_hashAll);
 
     void DeleteTree(Tree * item);
 

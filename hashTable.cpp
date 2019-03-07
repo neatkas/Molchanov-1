@@ -119,9 +119,10 @@ void HashTable::Create(QStringList m)
     }
 }
 
-QStringList HashTable::Find(QString s, int &s_count)
+QStringList HashTable::Find(QString s, int &s_count, int &s_hash)
 {
     s_count++;
+    s_hash = 0;
 
     QStringList result;
     bool rehashed;
@@ -142,6 +143,7 @@ QStringList HashTable::Find(QString s, int &s_count)
             hi = (h + i) % get_N();
             foreach(QString str_num, mas)
             {
+                s_hash++;
                 if(str_num.toInt() == hi)
                 {
                     if(s == get_masStrItem(hi))
@@ -155,6 +157,22 @@ QStringList HashTable::Find(QString s, int &s_count)
             i++;
         }
     }
+    else{
+        rehashed = false;
+        foreach(QString str_num, mas)
+        {
+            s_hash++;
+            if(str_num.toInt() == h)
+            {
+                if(s == get_masStrItem(h))
+                {
+                    rehashed = true;
+                    result.append(s);
+                }
+                break;
+            }
+        }
+    }
 
     if(rehashed) result[0] = "true";
 
@@ -163,18 +181,18 @@ QStringList HashTable::Find(QString s, int &s_count)
     return result;
 }
 
-QStringList HashTable::FindAll(int &s_count)
+QStringList HashTable::FindAll(QStringList list, int &s_count, int &s_hash, int &s_hashAll)
 {
+    s_hashAll = 0;
     QStringList result;
 
     result.append("true");
 
-    foreach(QString item, masStr)
+    foreach(QString item, list)
     {
         QStringList temp;
-        temp.append(Find(item, s_count));
-
-        //добавить - обработка переданной статистики
+        temp.append(Find(item, s_count, s_hash));
+        s_hashAll += s_hash;
 
         //если что-то пошло не так - заменить true в первом элементе result на false
         if(temp[0] != "true")
