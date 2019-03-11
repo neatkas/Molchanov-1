@@ -50,8 +50,8 @@ QString HashTable::get_masStrItem(int i)
 
 void HashTable::Create(QStringList m)
 {
-    set_min(HashFun("0"));
-    set_max(HashFun("zzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzz"));
+    //set_min(HashFun("0"));
+    //set_max(HashFun("zzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzz"));
     set_N(250);             //максимальное количество идентификаторов
 
     for(int i=0; i < get_N(); i++)
@@ -92,7 +92,7 @@ void HashTable::Create(QStringList m)
                 {
                     if(str_num.toInt() == hi)
                     {
-                        rehash = true;          //true - что-то пошло не так
+                        rehash = true;          //true - ячейка, на которую указывает hi, уже занята
                         break;
                     }
                 }
@@ -113,26 +113,27 @@ void HashTable::Create(QStringList m)
     }
 }
 
-QStringList HashTable::Find(QString s, int &s_count, int &s_hash)
+bool HashTable::Find(QString s, int &s_count, int &s_hash)
 {
     s_count++;
     s_hash = 0;
 
-    QStringList result;
     int hi = -1;
     int i = 1;
-
-    result.append("false");
 
     int h = HashFun(s);
 
     if(h < get_N())
     {
         s_hash++;
+        if(masStr[h] == "")
+        {
+            return false;
+        }
+
         if(masStr[h] == s)
         {
-            result[0] = "true";
-            return result;
+            return true;
         }
     }
 
@@ -140,83 +141,33 @@ QStringList HashTable::Find(QString s, int &s_count, int &s_hash)
     {
         s_hash++;
         hi = (h + i) % get_N();
+
+        if(hi == h || masStr[hi] == "")
+        {
+            return false;
+        }
+
         if(masStr[hi] == s)
         {
-            result[0] = "true";
-            return result;
+            return true;
         }
         i++;
     }
 
-    /*
-    if(h <= get_N()) rehashed = true;
-    else rehashed = false;
-
-    if(!rehashed)
-    {
-        int hi = -1;
-        int i = 1;
-        while ( h != hi && !rehashed)
-        {
-            hi = (h + i) % get_N();
-            foreach(QString str_num, mas)
-            {
-                s_hash++;
-                if(str_num.toInt() == hi)
-                {
-                    if(s == get_masStrItem(hi))
-                    {
-                        rehashed = true;
-                        result.append(s);
-                    }
-                    break;
-                }
-            }
-            i++;
-        }
-    }
-    else{
-        rehashed = false;
-        foreach(QString str_num, mas)
-        {
-            s_hash++;
-            if(str_num.toInt() == h)
-            {
-                if(s == get_masStrItem(h))
-                {
-                    rehashed = true;
-                    result.append(s);
-                }
-                break;
-            }
-        }
-    }
-
-    if(rehashed) result[0] = "true";*/
-
     //запись в массив статистики
 
-    return result;
+    return false;
 }
 
-QStringList HashTable::FindAll(QStringList list, int &s_count, int &s_hash, int &s_hashAll)
+bool HashTable::FindAll(QStringList list, int &s_count, int &s_hash, int &s_hashAll)
 {
     s_hashAll = 0;
-    QStringList result;
-
-    result.append("true");
+    bool result = false;
 
     foreach(QString item, list)
     {
-        QStringList temp;
-        temp.append(Find(item, s_count, s_hash));
+        result = Find(item, s_count, s_hash);
         s_hashAll += s_hash;
-
-        //если что-то пошло не так - заменить true в первом элементе result на false
-        if(temp[0] != "true")
-        {
-            result[0] = "false";
-        }
     }
 
     return result;

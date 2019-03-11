@@ -28,8 +28,8 @@ public:
     QString get_masStrItem(int i);
 
     void Create(QStringList m);
-    QStringList Find(QString s, int &s_count, int &s_hash);    //возвращает массив с данными о результатах поиска и собранную статистику
-    QStringList FindAll(QStringList list,int &s_count, int &s_hash, int &s_hashAll);          //возвращает массив с данными о результатах поиска и собранную статистику
+    bool Find(QString s, int &s_count, int &s_hash);    //возвращает массив с данными о результатах поиска и собранную статистику
+    bool FindAll(QStringList list,int &s_count, int &s_hash, int &s_hashAll);          //возвращает массив с данными о результатах поиска и собранную статистику
 };
 
 #endif // HASHTABLE_H

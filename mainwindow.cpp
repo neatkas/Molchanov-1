@@ -227,31 +227,22 @@ void MainWindow::findTreeAll(QStringList list, Tree * item, int &s_count, int &s
         findTree(str, s_count, s_tree);
         s_treeAll += s_tree;
     }
-    /*if (item != NULL)
-    {
-        findTreeAll(list, item->get_left(), s_count, s_tree, s_treeAll);
-        findTree(item->get_ident(), s_count, s_tree);
-        s_treeAll += s_tree;
-        findTreeAll(list, item->get_right(), s_count, s_tree, s_treeAll);
-    }*/
 }
 
 void MainWindow::findHash(QString str, int &s_count, int &s_hash)
 {
     //алгоритм поиска номер 2 - рехэширование
-    QStringList res = hTable.Find(str, s_count, s_hash);
-    if(res[0] == "true")
+
+    if(hTable.Find(str, s_count, s_hash))
         ui->label_14->setText(trUtf8("Идентификатор найден"));
     else ui->label_14->setText(trUtf8("Идентификатор не найден"));
 }
 
 void MainWindow::findHashAll(QStringList list, int &s_count, int &s_hash, int &s_hashAll)
 {
-    QStringList res = hTable.FindAll(list, s_count, s_hash, s_hashAll);
-    if(res[0] == "true")
+    if(hTable.FindAll(list, s_count, s_hash, s_hashAll))
         ui->label_14->setText(trUtf8("Идентификатор найден"));
-    else
-        ui->label_14->setText(trUtf8("Идентификатор не найден"));
+    else ui->label_14->setText(trUtf8("Идентификатор не найден"));
 }
 
 void MainWindow::ShowTree(Tree * item, int level)
