@@ -1,10 +1,5 @@
 #include "tree.h"
 
-Tree::Tree()
-{
-
-}
-
 void Tree::set_ident(QString str)
 {
     ident = str;
@@ -54,7 +49,6 @@ bool Tree::AddElem(Tree * head, QString s)
     if(found) return false;           //если элемент с таким индексом уже существует, то добавить новый элемент нельзя
 
     Tree * newEl = new Tree();
-    //newEl->set_hashId(h);
     newEl->set_ident(s);
     newEl->set_left(NULL);
     newEl->set_right(NULL);

@@ -10,18 +10,7 @@ void HashTable::set_N(int num)
 {
     N = num;
 }
-void HashTable::set_min(int num)
-{
-    min = num;
-}
-void HashTable::set_max(int num)
-{
-    max = num;
-}
-void HashTable::set_masItem(int num)
-{
-    mas.append(QString::number(num));
-}
+
 void HashTable::set_masStrItem(int i, QString s)
 {
     masStr[i] = s;
@@ -31,18 +20,7 @@ int HashTable::get_N()
 {
     return N;
 }
-int HashTable::get_min()
-{
-    return min;
-}
-int HashTable::get_max()
-{
-    return max;
-}
-int HashTable::get_masItem(int i)
-{
-    return mas[i].toInt();
-}
+
 QString HashTable::get_masStrItem(int i)
 {
     return masStr[i];
@@ -50,8 +28,6 @@ QString HashTable::get_masStrItem(int i)
 
 void HashTable::Create(QStringList m)
 {
-    //set_min(HashFun("0"));
-    //set_max(HashFun("zzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzz"));
     set_N(250);             //максимальное количество идентификаторов
 
     for(int i=0; i < get_N(); i++)
@@ -59,57 +35,32 @@ void HashTable::Create(QStringList m)
         masStr.append("");
     }
 
-    int i = 0;
     foreach(QString str, m)
     {
         int h = HashFun(str);
 
-        //проверить, что идентификатора с таким индексом еще нет
-        bool rehash = false;         //true - требуется рехэширование
-        foreach(QString str_num, mas)
-        {
-            if(str_num.toInt() == h)
-            {
-                rehash = true;
-                break;
-            }
-        }
+        if(h > get_N())
+            h = h % get_N();
 
-        //проверка выхода за пределы массива
-        if(h > get_N()) rehash = true;
-
-        //процедура рехэширования
-        if(rehash)
+        if(masStr[h] != "")
         {
-            int j = 1;
+            int i = 1;
             int hi = -1;
             while(hi != h)
             {
-                hi = (h+j) % get_N();   //рехэширование
-
-                rehash = false;
-                foreach(QString str_num, mas)
-                {
-                    if(str_num.toInt() == hi)
-                    {
-                        rehash = true;          //true - ячейка, на которую указывает hi, уже занята
-                        break;
-                    }
-                }
-
-                if(!rehash) break;
-                j++;
+                hi = (h+i) % get_N();
+                if(masStr[hi] == "")
+                    break;
+                i++;
             }
-            if(hi == h) rehash = true;
-            if(!rehash) h = hi; //если rehash = false - рехэширование помогло, иначе - добавить элемент нельзя, рехэшируем дальше
+            if(hi != h) h = hi;
+            else h = -1;
         }
 
-        if(!rehash)
+        if(h != -1)
         {
-            set_masItem(h);
             set_masStrItem(h, str);
         }
-        i++;
     }
 }
 
